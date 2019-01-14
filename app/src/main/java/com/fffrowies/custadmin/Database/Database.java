@@ -103,4 +103,10 @@ public class Database extends SQLiteAssetHelper {
         }
         return result;
     }
+
+    public void deleteCustomer(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+        String tableName = "Customers"; // Make sure this is your table name
+        db.delete(tableName, " id = " + id, null);
+    }
 }

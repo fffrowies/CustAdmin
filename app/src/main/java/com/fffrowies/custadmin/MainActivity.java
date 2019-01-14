@@ -1,5 +1,7 @@
 package com.fffrowies.custadmin;
 
+import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,12 +10,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fffrowies.custadmin.Adapter.SearchAdapter;
 import com.fffrowies.custadmin.Database.Database;
+import com.fffrowies.custadmin.Model.Customer;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import java.util.ArrayList;
@@ -29,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     List<String> suggestList = new ArrayList<>();
 
     Database database;
+    private SearchAdapter searchAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +60,13 @@ public class MainActivity extends AppCompatActivity {
         database = new Database(this);
 
         //Setup search bar
-        materialSearchBar.setHint(getString(R.string.search));
+        Resources res = getResources();
+        String search = res.getString(R.string.search);
+        String owner = res.getString(R.string.owner);
+
+        String hint = res.getString(R.string.search_phrase, search, owner);
+
+        materialSearchBar.setHint(hint);
         materialSearchBar.setCardViewElevation(10);
         loadSuggestList();
         materialSearchBar.addTextChangeListener(new TextWatcher() {
@@ -82,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        
+
         materialSearchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
             @Override
             public void onSearchStateChanged(boolean enabled) {
@@ -110,10 +120,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startSearch(String text) {
-
         adapter = new SearchAdapter(this, database.getCustomerByName(text));
         recyclerView.setAdapter(adapter);
-
     }
 
     private void loadSuggestList() {
@@ -121,14 +129,36 @@ public class MainActivity extends AppCompatActivity {
         materialSearchBar.setLastSuggestions(suggestList);
     }
 
-    public void onCardClick(View view) {
+    public boolean onContextItemSelected(MenuItem item) {
 
-        Toast.makeText(this, "Que lo pario", Toast.LENGTH_SHORT).show();
+        int card = item.getGroupId();
+        Customer customer = adapter.customers.get(card);
+        switch (item.getItemId()) {
+            case 0:
+                Toast.makeText(this,"Account " + customer.name,Toast.LENGTH_LONG).show();
+                break;
+            case 1:
+                Toast.makeText(this,"Edit " + customer.name,Toast.LENGTH_LONG).show();
+                break;
+            case 2:
+                Toast.makeText(this,"Delete " + customer.name,Toast.LENGTH_LONG).show();
+                database.deleteCustomer(customer.id);
+                database.close();
+                returnToMainActivity();
+//            case 3:
+//                Toast.makeText(this,"Call " + card,Toast.LENGTH_LONG).show();
+//                break;
+//            case 4:
+//                Toast.makeText(this,"SMS " + card,Toast.LENGTH_LONG).show();
+//                break;
+        }
+        return super.onContextItemSelected(item);
+    }
 
-        TextView nameTextView = view.findViewById(R.id.name);
-
-        String name = nameTextView.getText().toString();
-        Toast.makeText(MainActivity.this, "Vamos " + name, Toast.LENGTH_SHORT).show();
+    private void returnToMainActivity() {
+        Intent home_intent = new Intent(getApplicationContext(), MainActivity.class)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(home_intent);
     }
 }
 
