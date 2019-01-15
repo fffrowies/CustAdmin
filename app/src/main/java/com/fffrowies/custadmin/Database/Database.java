@@ -1,5 +1,6 @@
 package com.fffrowies.custadmin.Database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,8 +14,25 @@ import java.util.List;
 
 public class Database extends SQLiteAssetHelper {
 
-    private static final String DB_NAME = "customer.db";
-    private static final int DB_VER = 1;
+    ////////////////////////////////////////////////////
+    // Table Name
+    public static final String TABLE_NAME = "Customers";
+
+    // Table columns
+    public static final String _ID = "Id";
+    public static final String NAME = "Name";
+    public static final String ADDRESS = "Address";
+    public static final String EMAIL = "Email";
+    public static final String PHONE = "Phone";
+
+    // Database Information
+    static final String DB_NAME = "customer.db";
+
+    // Database Version
+    static final int DB_VER = 1;
+
+    private SQLiteDatabase database;
+    ////////////////////////////////////////////////////
 
     public Database(Context context) {
         super(context, DB_NAME, null, DB_VER);
@@ -28,20 +46,19 @@ public class Database extends SQLiteAssetHelper {
 
         // Make sure all is column name in your Table
         String[] sqlSelect = { "Id", "Name", "Address", "Email", "Phone" };
-        String tableName = "Customers"; // Make sure this is your table name
 
-        qb.setTables(tableName);
+        qb.setTables(TABLE_NAME);
         Cursor cursor = qb.query(db, sqlSelect, null, null,
                 null, null, null);
         List<Customer> result = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
                 Customer customer = new Customer();
-                customer.setId(cursor.getInt(cursor.getColumnIndex("Id")));
-                customer.setName(cursor.getString(cursor.getColumnIndex("Name")));
-                customer.setAddress(cursor.getString(cursor.getColumnIndex("Address")));
-                customer.setEmail(cursor.getString(cursor.getColumnIndex("Email")));
-                customer.setPhone(cursor.getString(cursor.getColumnIndex("Phone")));
+                customer.setId(cursor.getInt(cursor.getColumnIndex(_ID)));
+                customer.setName(cursor.getString(cursor.getColumnIndex(NAME)));
+                customer.setAddress(cursor.getString(cursor.getColumnIndex(ADDRESS)));
+                customer.setEmail(cursor.getString(cursor.getColumnIndex(EMAIL)));
+                customer.setPhone(cursor.getString(cursor.getColumnIndex(PHONE)));
 
                 result.add(customer);
             } while (cursor.moveToNext());
@@ -55,16 +72,15 @@ public class Database extends SQLiteAssetHelper {
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
         // Make sure all is column name in your Table
-        String[] sqlSelect = { "Name" };
-        String tableName = "Customers"; // Make sure this is your table name
+        String[] sqlSelect = { NAME };
 
-        qb.setTables(tableName);
+        qb.setTables(TABLE_NAME);
         Cursor cursor = qb.query(db, sqlSelect, null, null,
                 null, null, null);
         List<String> result = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
-                result.add(cursor.getString(cursor.getColumnIndex("Name")));
+                result.add(cursor.getString(cursor.getColumnIndex(NAME)));
             } while (cursor.moveToNext());
         }
         return result;
@@ -76,10 +92,9 @@ public class Database extends SQLiteAssetHelper {
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
         //Make sure all is column name in your Table
-        String[] sqlSelect = { "Id", "Name", "Address", "Email", "Phone" };
-        String tableName = "Customers"; // Make sure this is your table name
+        String[] sqlSelect = { _ID, NAME, ADDRESS, EMAIL, PHONE };
 
-        qb.setTables(tableName);
+        qb.setTables(TABLE_NAME);
 
         //If you want to get extract name, just change
 //        Cursor cursor = qb.query(db, sqlSelect, "Name = ?", new String[]{name},
@@ -92,11 +107,11 @@ public class Database extends SQLiteAssetHelper {
         if (cursor.moveToFirst()) {
             do {
                 Customer customer = new Customer();
-                customer.setId(cursor.getInt(cursor.getColumnIndex("Id")));
-                customer.setName(cursor.getString(cursor.getColumnIndex("Name")));
-                customer.setAddress(cursor.getString(cursor.getColumnIndex("Address")));
-                customer.setEmail(cursor.getString(cursor.getColumnIndex("Email")));
-                customer.setPhone(cursor.getString(cursor.getColumnIndex("Phone")));
+                customer.setId(cursor.getInt(cursor.getColumnIndex(_ID)));
+                customer.setName(cursor.getString(cursor.getColumnIndex(NAME)));
+                customer.setAddress(cursor.getString(cursor.getColumnIndex(ADDRESS)));
+                customer.setEmail(cursor.getString(cursor.getColumnIndex(EMAIL)));
+                customer.setPhone(cursor.getString(cursor.getColumnIndex(PHONE)));
 
                 result.add(customer);
             } while (cursor.moveToNext());
@@ -105,8 +120,18 @@ public class Database extends SQLiteAssetHelper {
     }
 
     public void deleteCustomer(int id) {
-        SQLiteDatabase db = getWritableDatabase();
-        String tableName = "Customers"; // Make sure this is your table name
-        db.delete(tableName, " id = " + id, null);
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, _ID + " = " + id, null);
+    }
+
+    public void add(String name, String address, String email, String phone) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(NAME, name);
+        contentValues.put(ADDRESS, address);
+        contentValues.put(EMAIL, email);
+        contentValues.put(PHONE, phone);
+
+        db.insert(TABLE_NAME, null, contentValues);
     }
 }

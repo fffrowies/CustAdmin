@@ -35,10 +35,11 @@ class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnCreateC
         menu.setHeaderTitle("Select The Action");
 
         menu.add(this.getAdapterPosition(), 0, 0, "Account");
-        menu.add(this.getAdapterPosition(), 1, 3, "Edit");
-        menu.add(this.getAdapterPosition(), 2, 4, "Delete");
-//        menu.add(this.getAdapterPosition(), 3, 1, "Call");
-//        menu.add(this.getAdapterPosition(), 4, 2, "SMS");
+        menu.add(this.getAdapterPosition(), 1, 4, "Edit");
+        menu.add(this.getAdapterPosition(), 2, 5, "Delete");
+        menu.add(this.getAdapterPosition(), 3, 1, "Call");
+        menu.add(this.getAdapterPosition(), 4, 2, "SMS");
+        menu.add(this.getAdapterPosition(), 5, 3, "Whatsapp");
     }
 }
 

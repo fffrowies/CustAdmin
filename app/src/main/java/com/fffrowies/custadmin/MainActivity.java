@@ -2,6 +2,7 @@ package com.fffrowies.custadmin;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -43,8 +44,11 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+
+                Intent addCustomers = new Intent(getApplicationContext(), AddCustomers.class);
+                startActivity(addCustomers);
             }
         });
 
@@ -136,21 +140,33 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case 0:
                 Toast.makeText(this,"Account " + customer.name,Toast.LENGTH_LONG).show();
+                //TODO intent and activity for invoices and ctacte etc.
                 break;
             case 1:
                 Toast.makeText(this,"Edit " + customer.name,Toast.LENGTH_LONG).show();
+                //TODO intent and activity for edition
                 break;
             case 2:
                 Toast.makeText(this,"Delete " + customer.name,Toast.LENGTH_LONG).show();
+                //TODO dialog box for confirmation or rejection
                 database.deleteCustomer(customer.id);
-                database.close();
                 returnToMainActivity();
-//            case 3:
-//                Toast.makeText(this,"Call " + card,Toast.LENGTH_LONG).show();
-//                break;
-//            case 4:
-//                Toast.makeText(this,"SMS " + card,Toast.LENGTH_LONG).show();
-//                break;
+                break;
+            case 3:
+                Toast.makeText(this,"Call " + customer.name,Toast.LENGTH_LONG).show();
+                String phone = customer.phone;
+                Intent intent = new Intent(
+                        Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
+                startActivity(intent);
+                break;
+            case 4:
+                Toast.makeText(this,"SMS " + customer.name,Toast.LENGTH_LONG).show();
+                //TODO intent to send SMS
+                break;
+            case 5:
+                Toast.makeText(this,"WhatsApp " + customer.name,Toast.LENGTH_LONG).show();
+                openWhatsappContact(customer.phone);
+                break;
         }
         return super.onContextItemSelected(item);
     }
@@ -160,5 +176,11 @@ public class MainActivity extends AppCompatActivity {
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(home_intent);
     }
-}
 
+    private void openWhatsappContact(String number) {
+        Uri uri = Uri.parse("smsto:" + number);
+        Intent i = new Intent(Intent.ACTION_SENDTO, uri);
+        i.setPackage("com.whatsapp");
+        startActivity(Intent.createChooser(i, ""));
+    }
+}
