@@ -158,17 +158,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="cancelAddCustomer"
+            android:onClick="cancelUpdateCustomer"
             android:text="@string/cancel" />
 
         <Button
-            android:id="@+id/btn_add"
+            android:id="@+id/btn_update"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/colorAccent"
-            android:text="@string/add"
-            android:onClick="addCustomer"
+            android:text="@string/update"
+            android:onClick="updateCustomer"
             android:textColor="@android:color/white" />
     </LinearLayout>
 

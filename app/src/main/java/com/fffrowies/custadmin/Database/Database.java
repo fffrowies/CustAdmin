@@ -134,4 +134,15 @@ public class Database extends SQLiteAssetHelper {
 
         db.insert(TABLE_NAME, null, contentValues);
     }
+
+    public void update(int _id, String name, String address, String email, String phone) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(NAME, name);
+        contentValues.put(ADDRESS, address);
+        contentValues.put(EMAIL, email);
+        contentValues.put(PHONE, phone);
+
+        db.update(TABLE_NAME, contentValues, this._ID + " = " + _id, null);
+    }
 }
