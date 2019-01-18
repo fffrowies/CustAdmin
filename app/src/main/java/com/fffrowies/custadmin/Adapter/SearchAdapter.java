@@ -10,17 +10,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
+import com.fffrowies.custadmin.Interface.ICustomerClickListener;
 import com.fffrowies.custadmin.Model.Customer;
 import com.fffrowies.custadmin.R;
 
-class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
+class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, View.OnClickListener {
 
     //TODO check if it can be private
     public TextView name, address, email, phone;
     public CardView root_view;
+
+    ICustomerClickListener customerClickListener;
+
+    public void setCustomerClickListener(ICustomerClickListener customerClickListener) {
+        this.customerClickListener = customerClickListener;
+    }
 
     public SearchViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -32,6 +40,7 @@ class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnCreateC
         phone = itemView.findViewById(R.id.phone);
 
         itemView.setOnCreateContextMenuListener(this);
+        itemView.setOnClickListener(this);
     }
 
     @Override
@@ -46,6 +55,11 @@ class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnCreateC
         menu.add(this.getAdapterPosition(), 3, 1, "Call");
         menu.add(this.getAdapterPosition(), 4, 2, "SMS");
         menu.add(this.getAdapterPosition(), 5, 3, "Whatsapp");
+    }
+
+    @Override
+    public void onClick(View v) {
+        customerClickListener.onCustomerClick(v, getAdapterPosition());
     }
 }
 
@@ -77,6 +91,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
         if (position % 2 == 0) {
             holder.root_view.setCardBackgroundColor(Color.parseColor("#E1E1E1"));
         }
+
+        holder.setCustomerClickListener(new ICustomerClickListener() {
+            @Override
+            public void onCustomerClick(View view, int position) {
+                Toast.makeText(context, ""+customers.get(position).getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
