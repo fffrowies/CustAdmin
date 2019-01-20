@@ -32,8 +32,10 @@ public class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView>
 
         int fabHalfHeight = child.findViewById(R.id.fab).getHeight()/2;
         setTopMargin(child.findViewById(R.id.card_view), fabHalfHeight); //Margin cardView to 1/2 fab height
-        int rvMaxHeight = child.getHeight() - fabHalfHeight - child.findViewById(R.id.card_title).getHeight()
-                - child.findViewById(R.id.card_sub_title).getHeight();
+        int rvMaxHeight = child.getHeight() - fabHalfHeight - child.findViewById(R.id.card_name).getHeight()
+                - child.findViewById(R.id.card_address).getHeight()
+                - child.findViewById(R.id.card_email).getHeight()
+                - child.findViewById(R.id.card_phone).getHeight();
         MaxHeightRecyclerView rv = child.findViewById(R.id.card_recycler_view);
         rv.setMaxHeight(rvMaxHeight);
 

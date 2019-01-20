@@ -12,13 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
 import com.fffrowies.custadmin.Interface.ICustomerClickListener;
-import com.fffrowies.custadmin.Invoicing;
-import com.fffrowies.custadmin.MainActivity;
+import com.fffrowies.custadmin.InvoicingActivity;
 import com.fffrowies.custadmin.Model.Customer;
 import com.fffrowies.custadmin.R;
 
@@ -101,13 +99,15 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
         holder.setCustomerClickListener(new ICustomerClickListener() {
             @Override
             public void onCustomerClick(View view, int position) {
-                //TODO intent to activity account
-                Intent invoicing_intent = new Intent(context.getApplicationContext(), Invoicing.class);
+                Intent invoicing_intent = new Intent(context.getApplicationContext(), InvoicingActivity.class);
+
+                invoicing_intent.putExtra("id", customers.get(position).getId());
+                invoicing_intent.putExtra("name", customers.get(position).getName());
+                invoicing_intent.putExtra("address", customers.get(position).getAddress());
+                invoicing_intent.putExtra("email", customers.get(position).getEmail());
+                invoicing_intent.putExtra("phone", customers.get(position).getPhone());
 
                 context.startActivity(invoicing_intent);
-//                Toast.makeText(context, ""+customers.get(position).getName(), Toast.LENGTH_SHORT).show();
-//
-//                int x = customers.get(position).getId();
             }
         });
     }

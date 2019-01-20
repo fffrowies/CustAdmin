@@ -1,5 +1,6 @@
 package com.fffrowies.custadmin;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
@@ -10,9 +11,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.TextView;
 
-import com.fffrowies.custadmin.Adapter.MyAdapter;
-import com.fffrowies.custadmin.Model.Model;
+import com.fffrowies.custadmin.Adapter.InvoicingAdapter;
+import com.fffrowies.custadmin.Model.Invoicing;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +22,13 @@ import java.util.List;
 import edmt.dev.advancednestedscrollview.AdvancedNestedScrollView;
 import edmt.dev.advancednestedscrollview.MaxHeightRecyclerView;
 
-public class Invoicing extends AppCompatActivity {
+public class InvoicingActivity extends AppCompatActivity {
 
     private boolean isShowingCardHeaderShadow;
-    List<Model> modelList = new ArrayList<>();
+    List<Invoicing> invoicingList = new ArrayList<>();
+
+    private int id;
+    private TextView card_name, card_address, card_email, card_phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +43,7 @@ public class Invoicing extends AppCompatActivity {
         final MaxHeightRecyclerView rv = (MaxHeightRecyclerView)findViewById(R.id.card_recycler_view);
         final LinearLayoutManager lm = new LinearLayoutManager(this);
         rv.setLayoutManager(lm);
-        rv.setAdapter(new MyAdapter(this, modelList));
+        rv.setAdapter(new InvoicingAdapter(this, invoicingList));
         rv.addItemDecoration(new DividerItemDecoration(this, lm.getOrientation()));
 
         final View cardHeaderShadow = findViewById(R.id.card_header_shadow);
@@ -72,6 +77,25 @@ public class Invoicing extends AppCompatActivity {
                 }
             }
         });
+
+        //Card TextView References
+        card_name = findViewById(R.id.card_name);
+        card_address = findViewById(R.id.card_address);
+        card_email = findViewById(R.id.card_email);
+        card_phone = findViewById(R.id.card_phone);
+
+        //Intent
+        Intent intent = getIntent();
+        id = intent.getIntExtra("id", 0);
+        String name = intent.getStringExtra("name");
+        String address = intent.getStringExtra("address");
+        String email = intent.getStringExtra("email");
+        String phone = intent.getStringExtra("phone");
+
+        card_name.setText(name);
+        card_address.setText(address);
+        card_email.setText(email);
+        card_phone.setText(phone);
     }
 
     private void showOrHideView(View view, boolean isShow) {
@@ -79,19 +103,19 @@ public class Invoicing extends AppCompatActivity {
     }
 
     private void generateModelList() {
-        modelList.add(new Model("https://imgs.mongabay.com/wp-content/uploads/sites/25/2017/08/07172039/vista_aerea_amazonas-768x512.jpg",
+        invoicingList.add(new Invoicing("https://imgs.mongabay.com/wp-content/uploads/sites/25/2017/08/07172039/vista_aerea_amazonas-768x512.jpg",
                 "Amazonas, Brazil"));
-        modelList.add(new Model("https://imgs.mongabay.com/wp-content/uploads/sites/25/2018/03/16181021/Puerto-de-Pucallpa-7-768x512.jpg",
+        invoicingList.add(new Invoicing("https://imgs.mongabay.com/wp-content/uploads/sites/25/2018/03/16181021/Puerto-de-Pucallpa-7-768x512.jpg",
                 "Puerto de Pucallpa, Ecuador"));
-        modelList.add(new Model("https://imgs.mongabay.com/wp-content/uploads/sites/25/2019/01/17134908/RS20032__oficinacacau_garimpo_aereas05-lpr-768x512.jpg",
+        invoicingList.add(new Invoicing("https://imgs.mongabay.com/wp-content/uploads/sites/25/2019/01/17134908/RS20032__oficinacacau_garimpo_aereas05-lpr-768x512.jpg",
                 "Oficina Cacau Garimpo, Area 05"));
-        modelList.add(new Model("https://imgs.mongabay.com/wp-content/uploads/sites/20/2018/11/20133837/Interdiction_6977149771-768x512.jpg",
+        invoicingList.add(new Invoicing("https://imgs.mongabay.com/wp-content/uploads/sites/20/2018/11/20133837/Interdiction_6977149771-768x512.jpg",
                 "Interdiction, Peru"));
-        modelList.add(new Model("https://imgs.mongabay.com/wp-content/uploads/sites/25/2018/08/22201821/Oso-de-anteojos_Santiago-Molina-768x512.jpg",
+        invoicingList.add(new Invoicing("https://imgs.mongabay.com/wp-content/uploads/sites/25/2018/08/22201821/Oso-de-anteojos_Santiago-Molina-768x512.jpg",
                 "Oso de Anteojos, Venezuela"));
-        modelList.add(new Model("https://imgs.mongabay.com/wp-content/uploads/sites/25/2018/10/18162856/Mar-Tropical-de-Grau-2-Yuri-Hooker-768x512.jpg",
+        invoicingList.add(new Invoicing("https://imgs.mongabay.com/wp-content/uploads/sites/25/2018/10/18162856/Mar-Tropical-de-Grau-2-Yuri-Hooker-768x512.jpg",
                 "Mar Tropical de Grau, Brazil"));
-        modelList.add(new Model("https://imgs.mongabay.com/wp-content/uploads/sites/25/2018/08/29213952/7F-768x512.jpg",
+        invoicingList.add(new Invoicing("https://imgs.mongabay.com/wp-content/uploads/sites/25/2018/08/29213952/7F-768x512.jpg",
                 "Ni la mas palida, Argentina"));
     }
 }

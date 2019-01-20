@@ -1,12 +1,12 @@
 package com.fffrowies.custadmin.Model;
 
-public class Model {
+public class Invoicing {
     private String image_link, text;
 
-    public Model() {
+    public Invoicing() {
     }
 
-    public Model(String image_link, String text) {
+    public Invoicing(String image_link, String text) {
         this.image_link = image_link;
         this.text = text;
     }

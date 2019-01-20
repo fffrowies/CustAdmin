@@ -9,21 +9,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.fffrowies.custadmin.Model.Invoicing;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import com.fffrowies.custadmin.Model.Model;
 import com.fffrowies.custadmin.R;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class InvoicingAdapter extends RecyclerView.Adapter<InvoicingAdapter.MyViewHolder> {
 
     Context context;
-    List<Model> modelList;
+    List<Invoicing> invoicingList;
 
-    public MyAdapter(Context context, List<Model> modelList) {
+    public InvoicingAdapter(Context context, List<Invoicing> invoicingList) {
         this.context = context;
-        this.modelList = modelList;
+        this.invoicingList = invoicingList;
     }
 
     @NonNull
@@ -37,14 +37,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
 
         //Use Picasso to fetch image
-        Picasso.get().load(modelList.get(i).getImage_link()).into(myViewHolder.image_view);
-        myViewHolder.text_view.setText(modelList.get(i).getText());
+        Picasso.get().load(invoicingList.get(i).getImage_link()).into(myViewHolder.image_view);
+        myViewHolder.text_view.setText(invoicingList.get(i).getText());
 
     }
 
     @Override
     public int getItemCount() {
-        return modelList.size();
+        return invoicingList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
