@@ -1,10 +1,12 @@
 package com.fffrowies.custadmin.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +17,13 @@ import android.widget.Toast;
 import java.util.List;
 
 import com.fffrowies.custadmin.Interface.ICustomerClickListener;
+import com.fffrowies.custadmin.Invoicing;
+import com.fffrowies.custadmin.MainActivity;
 import com.fffrowies.custadmin.Model.Customer;
 import com.fffrowies.custadmin.R;
 
 class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, View.OnClickListener {
 
-    //TODO check if it can be private
     public TextView name, address, email, phone;
     public CardView root_view;
 
@@ -49,12 +52,11 @@ class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnCreateC
 
         menu.setHeaderTitle("Select The Action");
 
-        menu.add(this.getAdapterPosition(), 0, 0, "Account");
-        menu.add(this.getAdapterPosition(), 1, 4, "Edit");
-        menu.add(this.getAdapterPosition(), 2, 5, "Delete");
-        menu.add(this.getAdapterPosition(), 3, 1, "Call");
-        menu.add(this.getAdapterPosition(), 4, 2, "SMS");
-        menu.add(this.getAdapterPosition(), 5, 3, "Whatsapp");
+        menu.add(this.getAdapterPosition(), 0, 0, "Call");
+        menu.add(this.getAdapterPosition(), 1, 1, "SMS");
+        menu.add(this.getAdapterPosition(), 2, 2, "Whatsapp");
+        menu.add(this.getAdapterPosition(), 3, 3, "Edit");
+        menu.add(this.getAdapterPosition(), 4, 4, "Delete");
     }
 
     @Override
@@ -64,6 +66,8 @@ class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnCreateC
 }
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
+
+    private static final String TAG = SearchAdapter.class.getSimpleName();
 
     private Context context;
     public List<Customer> customers;
@@ -88,6 +92,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
         holder.email.setText(customers.get(position).getEmail());
         holder.phone.setText(customers.get(position).getPhone());
 
+        Log.i(TAG, "Position: " + position);
+
         if (position % 2 == 0) {
             holder.root_view.setCardBackgroundColor(Color.parseColor("#E1E1E1"));
         }
@@ -95,7 +101,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
         holder.setCustomerClickListener(new ICustomerClickListener() {
             @Override
             public void onCustomerClick(View view, int position) {
-                Toast.makeText(context, ""+customers.get(position).getName(), Toast.LENGTH_SHORT).show();
+                //TODO intent to activity account
+                Intent invoicing_intent = new Intent(context.getApplicationContext(), Invoicing.class);
+
+                context.startActivity(invoicing_intent);
+//                Toast.makeText(context, ""+customers.get(position).getName(), Toast.LENGTH_SHORT).show();
+//
+//                int x = customers.get(position).getId();
             }
         });
     }

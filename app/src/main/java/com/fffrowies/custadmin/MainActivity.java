@@ -137,10 +137,21 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case 0:
-                Toast.makeText(this,"Account " + customer.name,Toast.LENGTH_LONG).show();
-                //TODO intent and activity for invoices and ctacte etc.
+                String phone = customer.phone;
+                Intent intent = new Intent(
+                        Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
+                startActivity(intent);
                 break;
             case 1:
+                Toast.makeText(this,"SMS " + customer.name,Toast.LENGTH_LONG).show();
+                //TODO intent to send SMS
+                break;
+            case 2:
+                Toast.makeText(this,"WhatsApp " + customer.name,Toast.LENGTH_LONG).show();
+                //TODO test
+                openWhatsappContact(customer.phone);
+                break;
+            case 3:
                 Intent edit_intent = new Intent(getApplicationContext(), EditCustomers.class);
 
                 edit_intent.putExtra("id", customer.id);
@@ -151,25 +162,10 @@ public class MainActivity extends AppCompatActivity {
 
                 startActivity(edit_intent);
                 break;
-            case 2:
+            case 4:
                 //TODO dialog box for confirmation or rejection
                 database.deleteCustomer(customer.id);
                 returnToMainActivity();
-                break;
-            case 3:
-                String phone = customer.phone;
-                Intent intent = new Intent(
-                        Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
-                startActivity(intent);
-                break;
-            case 4:
-                Toast.makeText(this,"SMS " + customer.name,Toast.LENGTH_LONG).show();
-                //TODO intent to send SMS
-                break;
-            case 5:
-                Toast.makeText(this,"WhatsApp " + customer.name,Toast.LENGTH_LONG).show();
-                //TODO test
-                openWhatsappContact(customer.phone);
                 break;
         }
         return super.onContextItemSelected(item);
