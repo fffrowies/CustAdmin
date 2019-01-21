@@ -172,7 +172,7 @@ public class AddCustomers extends AppCompatActivity {
         boolean test_phone = isValidPhone(phone);
 
         if (test_name && test_address && test_email && test_phone) {
-            database.add(name, address, email, phone);
+            database.addCustomer(name, address, email, phone);
             returnToMain();
         }
     }

@@ -6,14 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.fffrowies.custadmin.Model.Invoicing;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import com.fffrowies.custadmin.Model.Invoicing;
 import com.fffrowies.custadmin.R;
 
 public class InvoicingAdapter extends RecyclerView.Adapter<InvoicingAdapter.MyViewHolder> {
@@ -36,9 +33,8 @@ public class InvoicingAdapter extends RecyclerView.Adapter<InvoicingAdapter.MyVi
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
 
-        //Use Picasso to fetch image
-        Picasso.get().load(invoicingList.get(i).getImage_link()).into(myViewHolder.image_view);
-        myViewHolder.text_view.setText(invoicingList.get(i).getText());
+        myViewHolder.text_view_date.setText(invoicingList.get(i).getDate());
+        myViewHolder.text_view_total.setText("$ " + invoicingList.get(i).getTotal());
 
     }
 
@@ -48,14 +44,14 @@ public class InvoicingAdapter extends RecyclerView.Adapter<InvoicingAdapter.MyVi
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        ImageView image_view;
-        TextView text_view;
+        TextView text_view_date;
+        TextView text_view_total;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            image_view = (ImageView)itemView.findViewById(R.id.image_view);
-            text_view = (TextView)itemView.findViewById(R.id.text_view);
+            text_view_date = (TextView)itemView.findViewById(R.id.text_view_date);
+            text_view_total = (TextView)itemView.findViewById(R.id.text_view_total);
         }
     }
 }

@@ -183,7 +183,7 @@ public class EditCustomers extends AppCompatActivity {
         boolean test_phone = isValidPhone(phone);
 
         if (test_name && test_address && test_email && test_phone) {
-            database.update(id, name, address, email, phone);
+            database.updateCustomer(id, name, address, email, phone);
             returnToMain();
         }
     }

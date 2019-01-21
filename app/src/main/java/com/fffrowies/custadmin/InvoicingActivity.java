@@ -12,8 +12,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fffrowies.custadmin.Adapter.InvoicingAdapter;
+import com.fffrowies.custadmin.Database.Database;
 import com.fffrowies.custadmin.Model.Invoicing;
 
 import java.util.ArrayList;
@@ -30,20 +32,34 @@ public class InvoicingActivity extends AppCompatActivity {
     private int id;
     private TextView card_name, card_address, card_email, card_phone;
 
+    Database database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invoicing);
 
+        //Init DB
+        database = new Database(this);
+
         setSupportActionBar((Toolbar)findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        generateModelList();
+        //Intent
+        Intent intent = getIntent();
+        id = intent.getIntExtra("id", 0);
+        String name = intent.getStringExtra("name");
+        String address = intent.getStringExtra("address");
+        String email = intent.getStringExtra("email");
+        String phone = intent.getStringExtra("phone");
+
+        generateModelList(id);
 
         final MaxHeightRecyclerView rv = (MaxHeightRecyclerView)findViewById(R.id.card_recycler_view);
         final LinearLayoutManager lm = new LinearLayoutManager(this);
         rv.setLayoutManager(lm);
         rv.setAdapter(new InvoicingAdapter(this, invoicingList));
+
         rv.addItemDecoration(new DividerItemDecoration(this, lm.getOrientation()));
 
         final View cardHeaderShadow = findViewById(R.id.card_header_shadow);
@@ -84,14 +100,6 @@ public class InvoicingActivity extends AppCompatActivity {
         card_email = findViewById(R.id.card_email);
         card_phone = findViewById(R.id.card_phone);
 
-        //Intent
-        Intent intent = getIntent();
-        id = intent.getIntExtra("id", 0);
-        String name = intent.getStringExtra("name");
-        String address = intent.getStringExtra("address");
-        String email = intent.getStringExtra("email");
-        String phone = intent.getStringExtra("phone");
-
         card_name.setText(name);
         card_address.setText(address);
         card_email.setText(email);
@@ -102,20 +110,13 @@ public class InvoicingActivity extends AppCompatActivity {
         view.animate().alpha(isShow ? 1f:0f).setDuration(100).setInterpolator(new DecelerateInterpolator());
     }
 
-    private void generateModelList() {
-        invoicingList.add(new Invoicing("https://imgs.mongabay.com/wp-content/uploads/sites/25/2017/08/07172039/vista_aerea_amazonas-768x512.jpg",
-                "Amazonas, Brazil"));
-        invoicingList.add(new Invoicing("https://imgs.mongabay.com/wp-content/uploads/sites/25/2018/03/16181021/Puerto-de-Pucallpa-7-768x512.jpg",
-                "Puerto de Pucallpa, Ecuador"));
-        invoicingList.add(new Invoicing("https://imgs.mongabay.com/wp-content/uploads/sites/25/2019/01/17134908/RS20032__oficinacacau_garimpo_aereas05-lpr-768x512.jpg",
-                "Oficina Cacau Garimpo, Area 05"));
-        invoicingList.add(new Invoicing("https://imgs.mongabay.com/wp-content/uploads/sites/20/2018/11/20133837/Interdiction_6977149771-768x512.jpg",
-                "Interdiction, Peru"));
-        invoicingList.add(new Invoicing("https://imgs.mongabay.com/wp-content/uploads/sites/25/2018/08/22201821/Oso-de-anteojos_Santiago-Molina-768x512.jpg",
-                "Oso de Anteojos, Venezuela"));
-        invoicingList.add(new Invoicing("https://imgs.mongabay.com/wp-content/uploads/sites/25/2018/10/18162856/Mar-Tropical-de-Grau-2-Yuri-Hooker-768x512.jpg",
-                "Mar Tropical de Grau, Brazil"));
-        invoicingList.add(new Invoicing("https://imgs.mongabay.com/wp-content/uploads/sites/25/2018/08/29213952/7F-768x512.jpg",
-                "Ni la mas palida, Argentina"));
+    private void generateModelList(int id) {
+
+        invoicingList = database.getInvoicesByCustomerId(id);
+    }
+
+    public void billInvoice(View view) {
+
+        Toast.makeText(this, "Llamado a fragmento para crear factura", Toast.LENGTH_SHORT).show();
     }
 }
