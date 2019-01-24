@@ -30,6 +30,7 @@ public class InvoicingActivity extends AppCompatActivity {
     List<Invoicing> invoicingList = new ArrayList<>();
 
     private int id;
+    private String name, address, email, phone;
     private TextView card_name, card_address, card_email, card_phone;
 
     Database database;
@@ -117,6 +118,17 @@ public class InvoicingActivity extends AppCompatActivity {
 
     public void billInvoice(View view) {
 
-        Toast.makeText(this, "Llamado a fragmento para crear factura", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Llamado a activity para crear factura", Toast.LENGTH_SHORT).show();
+
+//        Intent invoicing_intent = new Intent(this, InvoicingActivity.class)
+//                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//
+//        invoicing_intent.putExtra("id", id);
+//        invoicing_intent.putExtra("name", name);
+//        invoicing_intent.putExtra("address", address);
+//        invoicing_intent.putExtra("email", email);
+//        invoicing_intent.putExtra("phone", phone);
+//
+//        startActivity(invoicing_intent);
     }
 }

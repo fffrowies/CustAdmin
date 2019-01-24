@@ -63,6 +63,7 @@
                         android:paddingRight="24dp"
                         android:paddingBottom="0dp"
                         android:text=""
+                        android:textAllCaps="true"
                         android:textColor="@android:color/black"
                         android:textSize="22sp"
                         android:textStyle="bold" />

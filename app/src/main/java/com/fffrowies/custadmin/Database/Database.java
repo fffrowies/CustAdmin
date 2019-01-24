@@ -11,6 +11,8 @@ import com.fffrowies.custadmin.Model.Invoicing;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class Database extends SQLiteAssetHelper {
@@ -42,7 +44,7 @@ public class Database extends SQLiteAssetHelper {
 
     public Database(Context context) {
         super(context, DB_NAME, null, DB_VER);
-//        setForcedUpgradeVersion(2);
+        setForcedUpgradeVersion(2);
     }
 
     //Function get all customers
@@ -56,7 +58,7 @@ public class Database extends SQLiteAssetHelper {
 
         qb.setTables(CUSTOMERS_TABLE_NAME);
         Cursor cursor = qb.query(db, sqlSelect, null, null,
-                null, null, null);
+                null, null, NAME + " ASC");
         List<Customer> result = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
@@ -70,6 +72,7 @@ public class Database extends SQLiteAssetHelper {
                 result.add(customer);
             } while (cursor.moveToNext());
         }
+
         return result;
     }
 
@@ -83,13 +86,14 @@ public class Database extends SQLiteAssetHelper {
 
         qb.setTables(CUSTOMERS_TABLE_NAME);
         Cursor cursor = qb.query(db, sqlSelect, null, null,
-                null, null, null);
+                null, null, NAME + " ASC");
         List<String> result = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
                 result.add(cursor.getString(cursor.getColumnIndex(NAME)));
             } while (cursor.moveToNext());
         }
+
         return result;
     }
 
@@ -109,7 +113,7 @@ public class Database extends SQLiteAssetHelper {
 
         //This will like query : SELECT * FROM Customers WHERE Name LIKE %pattern%
         Cursor cursor = qb.query(db, sqlSelect, "Name LIKE ?", new String[]{"%"+name+"%"},
-                null, null, null);
+                null, null, NAME + " ASC");
         List<Customer> result = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
@@ -188,6 +192,7 @@ public class Database extends SQLiteAssetHelper {
                 result.add(invoice);
             } while (cursor.moveToNext());
         }
+
         return result;
     }
 }
