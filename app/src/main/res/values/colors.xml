@@ -3,4 +3,6 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#081046</color>
     <color name="colorAccent">#1233EE</color>
+
+    <color name="colorScrollbarBackground">#1233EE</color>
 </resources>

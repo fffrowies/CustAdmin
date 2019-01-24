@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="8dp"
     tools:context=".MainActivity"
     tools:layout_editor_absoluteY="25dp">
 
@@ -21,6 +21,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_search"
+        android:scrollbars="vertical"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_below="@+id/search_bar"
@@ -29,13 +30,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_bar" />
 
+    <com.trendyol.bubblescrollbarlib.BubbleScrollBar
+        android:id="@+id/bubble_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:bubbleBackground="@drawable/my_scroll"
+        app:thumbBackground="@color/colorAccent"
+        app:scrollbarBackground="@color/colorScrollbarBackground"
+        app:bubbleTextSize="8sp"
+        app:bubbleMargin="4dp"
+        app:bubbleElevation="6dp"
+        app:bubbleHeight="50dp"
+        app:bubbleMinWidth="50dp"
+        app:bubbleTextColor="@android:color/white"
+        app:bubblePadding="4dp"
+        >
+
+    </com.trendyol.bubblescrollbarlib.BubbleScrollBar>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        app:backgroundTint="@color/colorAccent"
+        app:backgroundTint="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="@+id/recycler_search"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_person_add_white_24dp" />

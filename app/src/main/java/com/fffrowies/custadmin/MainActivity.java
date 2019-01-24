@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -18,6 +19,8 @@ import com.fffrowies.custadmin.Adapter.SearchAdapter;
 import com.fffrowies.custadmin.Database.Database;
 import com.fffrowies.custadmin.Model.Customer;
 import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.trendyol.bubblescrollbarlib.BubbleScrollBar;
+import com.trendyol.bubblescrollbarlib.BubbleTextProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +28,14 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    RecyclerView.LayoutManager layoutManager;
+    //RecyclerView.LayoutManager layoutManager;
+    LinearLayoutManager layoutManager;
     SearchAdapter adapter;
 
     MaterialSearchBar materialSearchBar;
     List<String> suggestList = new ArrayList<>();
+
+    BubbleScrollBar scrollBar;
 
     Database database;
     private SearchAdapter searchAdapter;
@@ -49,12 +55,23 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //init View
-        recyclerView = findViewById(R.id.recycler_search);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_search);
+        recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, layoutManager.getOrientation()));
 
-        materialSearchBar = findViewById(R.id.search_bar);
+        scrollBar = (BubbleScrollBar) findViewById(R.id.bubble_scroll);
+        scrollBar.attachToRecyclerView(recyclerView);
+
+        scrollBar.setBubbleTextProvider(new BubbleTextProvider() {
+            @Override
+            public String provideBubbleText(int i) {
+                return new StringBuilder(suggestList.get(i).substring(0,1)).toString();
+            }
+        });
+
+        materialSearchBar = (MaterialSearchBar) findViewById(R.id.search_bar);
 
         //Init DB
         database = new Database(this);
@@ -67,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         String hint = res.getString(R.string.search_phrase, search, owner);
 
         materialSearchBar.setHint(hint);
-        materialSearchBar.setCardViewElevation(10);
+        materialSearchBar.setCardViewElevation(8);
         loadSuggestList();
         materialSearchBar.addTextChangeListener(new TextWatcher() {
             @Override

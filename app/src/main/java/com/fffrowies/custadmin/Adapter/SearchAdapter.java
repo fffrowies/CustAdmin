@@ -65,7 +65,7 @@ class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnCreateC
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
 
-    private static final String TAG = SearchAdapter.class.getSimpleName();
+//    private static final String TAG = SearchAdapter.class.getSimpleName();
 
     private Context context;
     public List<Customer> customers;
@@ -90,7 +90,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
         holder.email.setText(customers.get(position).getEmail());
         holder.phone.setText(customers.get(position).getPhone());
 
-        Log.i(TAG, "Position: " + position);
+//        Log.i(TAG, "Position: " + position);
 
         if (position % 2 == 0) {
             holder.root_view.setCardBackgroundColor(Color.parseColor("#E1E1E1"));
